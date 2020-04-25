@@ -1,9 +1,7 @@
 package otus.deryagina.spring.integration;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.integration.annotation.IntegrationComponentScan;
@@ -15,17 +13,17 @@ import otus.deryagina.spring.integration.gateway.FraudChecker;
 @EnableIntegration
 @IntegrationComponentScan
 @Configuration
-@ComponentScan
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
 
         AbstractApplicationContext ctx = new AnnotationConfigApplicationContext(Main.class);
 
-        DirectChannel outputChannel= ctx.getBean("outputChannel",DirectChannel.class);
-        outputChannel.subscribe(s-> System.out.println(s));
+        DirectChannel outputChannel= ctx.getBean("outputVipChannel",DirectChannel.class);
+        outputChannel.subscribe(s->System.out.println("RESULT: " + s));
 
         FraudChecker fraudChecker = ctx.getBean(FraudChecker.class);
-        fraudChecker.process(new Operation(1,"a", "b", 10));
+        fraudChecker.process(new Operation(1,"vip", "b", 10));
 
         ctx.close();
 

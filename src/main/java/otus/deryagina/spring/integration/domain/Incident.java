@@ -9,6 +9,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Incident {
     private long operationId;
+    private boolean isVipSender;
     private Date date;
 
 }

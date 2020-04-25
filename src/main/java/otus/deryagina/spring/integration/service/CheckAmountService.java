@@ -1,8 +1,6 @@
 package otus.deryagina.spring.integration.service;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import otus.deryagina.spring.integration.domain.Incident;
 import otus.deryagina.spring.integration.domain.Operation;
 
@@ -13,7 +11,11 @@ public class CheckAmountService{
 
     public Incident check(Operation operation) {
         if(operation.getAmount() >= 8){
-            return new Incident(operation.getId(), new Date());
+            boolean isVipSender = false;
+            if(operation.getSender().equals("vip")) {
+                isVipSender = true;
+            }
+            return new Incident(operation.getId(),isVipSender, new Date());
         }
         return null;
     }
